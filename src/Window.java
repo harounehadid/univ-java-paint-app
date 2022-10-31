@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.plaf.DimensionUIResource;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -6,20 +8,26 @@ public class Window extends JFrame {
     public Window() {
         super("Paint SW3");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(500, 600);
+        this.setSize(1280, 720);
+        this.setLayout(new BorderLayout(20, 20));
+
+        Container mainContainer = this.getContentPane();
 
         // setPreferedSize is the function to use for app to open in prefered size
 
-        JMenuBar menuBar = menuBar();
+        // North panel
+        JPanel northPanel = new JPanel();
+        northPanel.setSize(new Dimension(this.getWidth(), 70));
+        northPanel.setLayout(new BorderLayout());
 
+        JMenuBar menuBar = menuBar();
         // Add tools panel
         JPanel toolsPanel = toolsPanel();
-        
-        // Setting the layout in the frame
-        Container mainContainer = this.getContentPane();
-        mainContainer.add(BorderLayout.NORTH, menuBar);
 
-        mainContainer.add(BorderLayout.NORTH, toolsPanel);
+        northPanel.add(BorderLayout.NORTH, menuBar);
+        northPanel.add(BorderLayout.SOUTH, toolsPanel);
+          
+        mainContainer.add(BorderLayout.NORTH, northPanel);
 
         this.setVisible(true);
     }
