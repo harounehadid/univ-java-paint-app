@@ -60,24 +60,33 @@ public class Window extends JFrame {
         JMenuItem miFileExport = new JMenuItem("Export");
         JMenuItem miFileExit = new JMenuItem("Exit");
 
+        miFileExit.addActionListener(this.toolsActionListener("Exit"));
+
         JMenu brushShapes = new JMenu("Brush Shapes");
         JMenuItem circleShape = new JMenuItem("Circle");
+        circleShape.addActionListener(this.toolsActionListener("C-Brush"));
         JMenuItem squareShape = new JMenuItem("Square");
+        squareShape.addActionListener(this.toolsActionListener("S-Brush"));
 
         brushShapes.add(circleShape);
         brushShapes.add(squareShape);
 
         JMenu colors = new JMenu("Colors");
         JMenuItem redColor = new JMenuItem("Red");
+        redColor.addActionListener(this.toolsActionListener("Red"));
         JMenuItem greedColor = new JMenuItem("Green");
+        greedColor.addActionListener(this.toolsActionListener("Green"));
         JMenuItem blueColor = new JMenuItem("Blue");
+        blueColor.addActionListener(this.toolsActionListener("Blue"));
 
         colors.add(redColor);
         colors.add(greedColor);
         colors.add(blueColor);
 
         JMenuItem miErase = new JMenuItem("Erase");
+        miErase.addActionListener(this.toolsActionListener("Erase"));
         JMenuItem miClear = new JMenuItem("Clear");
+        miClear.addActionListener(this.toolsActionListener("Clear"));
 
         fileMenu.add(miFileNew);
         fileMenu.add(miFileSave);
@@ -119,19 +128,7 @@ public class Window extends JFrame {
                 System.out.println("Image not found!");
             }
 
-            newBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (btnName == "S-Brush") canvas.squareStroke();
-                    else if (btnName == "C-Brush") canvas.roundStroke();
-                    else if (btnName == "Red") canvas.paintInRed();
-                    else if (btnName == "Green") canvas.paintInGreen();
-                    else if (btnName == "Blue") canvas.paintInBlue();
-                    else if (btnName == "Erase") canvas.erase();
-                    else if (btnName == "Clear") canvas.clear();
-                    else if (btnName == "Exit") canvas.exit(thisFrame);
-                }
-            });
+            newBtn.addActionListener(this.toolsActionListener(btnName));
             
             panelBtns.add(newBtn);
         }
@@ -143,5 +140,23 @@ public class Window extends JFrame {
         for (int i = 0; i < panelBtns.size(); i++) panel.add(panelBtns.get(i));
 
         return panel;
+    }
+
+    public ActionListener toolsActionListener(String btnName) {
+        ActionListener aListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (btnName == "S-Brush") canvas.squareStroke();
+                else if (btnName == "C-Brush") canvas.roundStroke();
+                else if (btnName == "Red") canvas.paintInRed();
+                else if (btnName == "Green") canvas.paintInGreen();
+                else if (btnName == "Blue") canvas.paintInBlue();
+                else if (btnName == "Erase") canvas.erase();
+                else if (btnName == "Clear") canvas.clear();
+                else if (btnName == "Exit") canvas.exit(thisFrame);
+            }
+        };
+
+        return aListener;
     }
 }

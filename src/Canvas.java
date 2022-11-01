@@ -12,7 +12,7 @@ public class Canvas extends JComponent {
     private int prevY;
     private int curX;
     private int curY;
-    private int strokeSize = 10;
+    private int strokeSize = 20;
     private boolean brushIsRound = true;
 
     public Canvas() {
