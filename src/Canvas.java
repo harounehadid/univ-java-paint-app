@@ -11,6 +11,7 @@ public class Canvas extends JComponent {
     private int prevY;
     private int curX;
     private int curY;
+    private int strokeSize = 20;
 
     public Canvas() {
         // setDoubleBuffered(false);
@@ -20,6 +21,11 @@ public class Canvas extends JComponent {
                 // Save the coordinates on prevX and prevY upon pressing
                 prevX = e.getX();
                 prevY = e.getY();
+
+                if (graphics != null) {
+                    graphics.fillOval(prevX, prevY, strokeSize, strokeSize);
+                    repaint();
+                }
             }
         });
 
@@ -30,7 +36,7 @@ public class Canvas extends JComponent {
                 curY = e.getY();
 
                 if (graphics != null) {
-                    graphics.drawLine(prevX, prevY, curX, curY);
+                    graphics.fillOval(curX, curY, strokeSize, strokeSize);
                     
                     // Refresh component to display changes
                     repaint();
@@ -50,6 +56,8 @@ public class Canvas extends JComponent {
 
             // Enable antialiasing
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            graphics.setStroke(new BasicStroke(strokeSize));
 
             // Clear draw area
             clear();
@@ -71,5 +79,9 @@ public class Canvas extends JComponent {
     public void paintInRed() {
         graphics.setPaint(Color.red);
         System.out.println("I'm working");
+    }
+
+    public void squareStroke() {
+        
     }
 }
