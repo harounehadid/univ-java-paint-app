@@ -1,7 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Window extends JFrame {
@@ -69,12 +71,26 @@ public class Window extends JFrame {
 
         for (int i = 0; i < btnsNames.length; i++) {
             JButton newBtn = new JButton(btnsNames[i]);
+            newBtn.setBackground(Color.decode(color2));
+            newBtn.setBorderPainted(false);
             panelBtns.add(newBtn);
         }
 
         // Setting layout depending on the number of buttons
         panel.setLayout(new FlowLayout(panelBtns.size()));
 
+        panelBtns.get(2).setText("Red");
+        panelBtns.get(2).setVerticalTextPosition(AbstractButton.BOTTOM);
+        panelBtns.get(2).setHorizontalTextPosition(AbstractButton.CENTER);
+        Image icon;
+        try {
+            icon = ImageIO.read(getClass().getResource("images-icons/Red-Color-Icon.png"));
+            panelBtns.get(2).setIcon(new ImageIcon(icon));
+        } catch (IOException e1) {
+            System.out.println("Image not found!");
+        }
+        
+        
         panelBtns.get(2).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
