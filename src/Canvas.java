@@ -3,6 +3,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 public class Canvas extends JComponent {
     private Image image;
@@ -12,6 +13,7 @@ public class Canvas extends JComponent {
     private int curX;
     private int curY;
     private int strokeSize = 20;
+    private boolean brushIsRound = true;
 
     public Canvas() {
         // setDoubleBuffered(false);
@@ -36,7 +38,9 @@ public class Canvas extends JComponent {
                 curY = e.getY();
 
                 if (graphics != null) {
-                    graphics.fillOval(curX, curY, strokeSize, strokeSize);
+                    
+                    if (brushIsRound) graphics.fillOval(curX, curY, strokeSize, strokeSize);
+                    else graphics.fillRect(curX, curY, strokeSize, strokeSize);
                     
                     // Refresh component to display changes
                     repaint();
@@ -66,6 +70,30 @@ public class Canvas extends JComponent {
         g.drawImage(image, 0, 0, null);
     }
 
+    public void squareStroke() {
+        this.brushIsRound = false;
+    }
+
+    public void roundStroke() {
+        this.brushIsRound = true;
+    }
+
+    public void paintInRed() {
+        graphics.setPaint(Color.red);
+    }
+
+    public void paintInGreen() {
+        graphics.setPaint(Color.green);
+    }
+
+    public void paintInBlue() {
+        graphics.setPaint(Color.blue);
+    }
+
+    public void erase() {
+        graphics.setPaint(Color.white);
+    }
+
     public void clear() {
         graphics.setPaint(Color.white);
 
@@ -76,12 +104,7 @@ public class Canvas extends JComponent {
         repaint();
     }
 
-    public void paintInRed() {
-        graphics.setPaint(Color.red);
-        System.out.println("I'm working");
-    }
-
-    public void squareStroke() {
-        
+    public void exit(JFrame frame) {
+        frame.dispose();
     }
 }

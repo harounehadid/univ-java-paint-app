@@ -10,6 +10,7 @@ public class Window extends JFrame {
     private final String color2 = "#f4f4f4";
     private final String framebgColor = "#f9f9f9";
     private Canvas canvas;
+    private JFrame thisFrame;
 
     public Window() {
         super("Paint SW3");
@@ -19,6 +20,8 @@ public class Window extends JFrame {
         this.setBackground(Color.decode(framebgColor));
 
         Container mainContainer = this.getContentPane();
+
+        thisFrame = this;
 
         // setPreferedSize is the function to use for app to open in prefered size
 
@@ -53,10 +56,38 @@ public class Window extends JFrame {
         menu.add(editMenu);
 
         JMenuItem miFileNew = new JMenuItem("New");
+        JMenuItem miFileSave = new JMenuItem("Save");
+        JMenuItem miFileExport = new JMenuItem("Export");
         JMenuItem miFileExit = new JMenuItem("Exit");
 
+        JMenu brushShapes = new JMenu("Brush Shapes");
+        JMenuItem circleShape = new JMenuItem("Circle");
+        JMenuItem squareShape = new JMenuItem("Square");
+
+        brushShapes.add(circleShape);
+        brushShapes.add(squareShape);
+
+        JMenu colors = new JMenu("Colors");
+        JMenuItem redColor = new JMenuItem("Red");
+        JMenuItem greedColor = new JMenuItem("Green");
+        JMenuItem blueColor = new JMenuItem("Blue");
+
+        colors.add(redColor);
+        colors.add(greedColor);
+        colors.add(blueColor);
+
+        JMenuItem miErase = new JMenuItem("Erase");
+        JMenuItem miClear = new JMenuItem("Clear");
+
         fileMenu.add(miFileNew);
+        fileMenu.add(miFileSave);
+        fileMenu.add(miFileExport);
         fileMenu.add(miFileExit);
+
+        editMenu.add(brushShapes);
+        editMenu.add(colors);
+        editMenu.add(miErase);
+        editMenu.add(miClear);
 
         return menu;
     }
@@ -66,37 +97,47 @@ public class Window extends JFrame {
         panel.setBackground(Color.decode(color2));
 
         // Creating the buttons for the tools panel
-        String btnsNames[] = {"S-Brush", "C-Brush", "Red", "Green", "Blue", "Clear", "Exit"};
+        String btnsNames[] = {"S-Brush", "C-Brush", "Red", "Green", "Blue", "Erase", "Clear", "Exit"};
         ArrayList<JButton> panelBtns = new ArrayList<JButton>();
 
         for (int i = 0; i < btnsNames.length; i++) {
-            JButton newBtn = new JButton(btnsNames[i]);
+            String btnName = btnsNames[i];
+            JButton newBtn = new JButton(btnName);
+
+            newBtn.setMaximumSize(new Dimension(62, 85));
+
             newBtn.setBackground(Color.decode(color2));
-            newBtn.setBorderPainted(false);
+            newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
+            newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
+
+            Image icon;
+
+            try {
+                icon = ImageIO.read(getClass().getResource("images-icons/" + btnName + "-Icon.png"));
+                newBtn.setIcon(new ImageIcon(icon));
+            } catch (IOException e1) {
+                System.out.println("Image not found!");
+            }
+
+            newBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (btnName == "S-Brush") canvas.squareStroke();
+                    else if (btnName == "C-Brush") canvas.roundStroke();
+                    else if (btnName == "Red") canvas.paintInRed();
+                    else if (btnName == "Green") canvas.paintInGreen();
+                    else if (btnName == "Blue") canvas.paintInBlue();
+                    else if (btnName == "Erase") canvas.erase();
+                    else if (btnName == "Clear") canvas.clear();
+                    else if (btnName == "Exit") canvas.exit(thisFrame);
+                }
+            });
+            
             panelBtns.add(newBtn);
         }
 
         // Setting layout depending on the number of buttons
         panel.setLayout(new FlowLayout(panelBtns.size()));
-
-        panelBtns.get(2).setText("Red");
-        panelBtns.get(2).setVerticalTextPosition(AbstractButton.BOTTOM);
-        panelBtns.get(2).setHorizontalTextPosition(AbstractButton.CENTER);
-        Image icon;
-        try {
-            icon = ImageIO.read(getClass().getResource("images-icons/Red-Color-Icon.png"));
-            panelBtns.get(2).setIcon(new ImageIcon(icon));
-        } catch (IOException e1) {
-            System.out.println("Image not found!");
-        }
-        
-        
-        panelBtns.get(2).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                canvas.paintInRed();
-            }
-        });
 
         // Adding buttons to the panel
         for (int i = 0; i < panelBtns.size(); i++) panel.add(panelBtns.get(i));
