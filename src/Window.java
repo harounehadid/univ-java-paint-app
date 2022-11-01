@@ -5,11 +5,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Window extends JFrame {
+    final String color2 = "#f4f4f4";
+    final String framebgColor = "#f9f9f9";
+
     public Window() {
         super("Paint SW3");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280, 720);
         this.setLayout(new BorderLayout(20, 20));
+        this.setBackground(Color.decode(framebgColor));
 
         Container mainContainer = this.getContentPane();
 
@@ -34,6 +38,7 @@ public class Window extends JFrame {
 
     private JMenuBar menuBar() {
         JMenuBar menu = new JMenuBar();
+        menu.setBackground(Color.decode(color2));
 
         JMenu fileMenu = new JMenu("File");
         JMenu editMenu = new JMenu("Edit");
@@ -52,7 +57,7 @@ public class Window extends JFrame {
 
     private JPanel toolsPanel() {
         JPanel panel = new JPanel();
-        panel.setBackground(Color.decode("#ff00ff"));
+        panel.setBackground(Color.decode(color2));
 
         // Creating the buttons for the tools panel
         String btnsNames[] = {"S-Brush", "C-Brush", "Red", "Green", "Blue", "Clear", "Exit"};
