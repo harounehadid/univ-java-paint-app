@@ -12,7 +12,7 @@ public class Canvas extends JComponent {
     private int prevY;
     private int curX;
     private int curY;
-    private int strokeSize = 20;
+    private int strokeSize = 10;
     private boolean brushIsRound = true;
 
     public Canvas() {
@@ -25,7 +25,9 @@ public class Canvas extends JComponent {
                 prevY = e.getY();
 
                 if (graphics != null) {
-                    graphics.fillOval(prevX, prevY, strokeSize, strokeSize);
+                    if (brushIsRound) graphics.fillOval(prevX, prevY, strokeSize, strokeSize);
+                    else graphics.fillRect(prevX, prevY, strokeSize, strokeSize);
+                    
                     repaint();
                 }
             }
