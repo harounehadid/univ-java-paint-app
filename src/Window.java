@@ -1,12 +1,13 @@
 import javax.swing.*;
-import javax.swing.plaf.DimensionUIResource;
-
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Window extends JFrame {
-    final String color2 = "#f4f4f4";
-    final String framebgColor = "#f9f9f9";
+    private final String color2 = "#f4f4f4";
+    private final String framebgColor = "#f9f9f9";
+    private Canvas canvas;
 
     public Window() {
         super("Paint SW3");
@@ -25,12 +26,15 @@ public class Window extends JFrame {
         northPanel.setLayout(new BorderLayout());
 
         JMenuBar menuBar = menuBar();
-        // Add tools panel
         JPanel toolsPanel = toolsPanel();
 
         northPanel.add(BorderLayout.NORTH, menuBar);
-        northPanel.add(BorderLayout.SOUTH, toolsPanel);
-          
+        northPanel.add(BorderLayout.SOUTH, toolsPanel);  
+        
+        // Create the element to draw on
+        canvas = new Canvas();
+
+        mainContainer.add(BorderLayout.CENTER, canvas);      
         mainContainer.add(BorderLayout.NORTH, northPanel);
 
         this.setVisible(true);
@@ -70,6 +74,13 @@ public class Window extends JFrame {
 
         // Setting layout depending on the number of buttons
         panel.setLayout(new FlowLayout(panelBtns.size()));
+
+        panelBtns.get(2).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                canvas.paintInRed();
+            }
+        });
 
         // Adding buttons to the panel
         for (int i = 0; i < panelBtns.size(); i++) panel.add(panelBtns.get(i));
